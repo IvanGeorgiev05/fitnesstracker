@@ -1,0 +1,25 @@
+[
+  {
+    "Type": "gym",
+    "Duration": 150,
+    "Calories": 500,
+    "Date": "03.04.2026"
+  },
+  {
+    "Type": "bike",
+    "Duration": 30,
+    "Calories": 230,
+    "Date": "04.04.2026",
+    "Distance": 15.3,
+    "Heart Rate": 150
+  },
+  {
+    "Type": "Running",
+    "Duration": 60,
+    "Calories": 400,
+    "Date": "05.04.2025",
+    "Distance": 5.6,
+    "Heart Rate": 160,
+    "Terrain": "track"
+  }
+]
