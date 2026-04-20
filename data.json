@@ -21,5 +21,11 @@
     "Distance": 5.6,
     "Heart Rate": 160,
     "Terrain": "track"
+  },
+  {
+    "Type": "Gym",
+    "Duration": 135,
+    "Calories": 500,
+    "Date": "20.12.2005"
   }
 ]

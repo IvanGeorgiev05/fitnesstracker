@@ -4,13 +4,17 @@ from activity import Activity, CardioActivity, RunningActivity
 
 config = configparser.ConfigParser()
 config.read("config.ini")
+
 filename = config["SETTINGS"]["filename"]
+
 def write_json(activity):
     try:
         data = read_json()
         data.append(activity.to_dict())
+
         with open(filename, "w") as file:
             json.dump(data, file, indent=2)
+
     except (FileNotFoundError, json.decoder.JSONDecodeError):
         with open(filename, "w") as file:
             json.dump([activity.to_dict()], file, indent=2)
@@ -18,9 +22,12 @@ def write_json(activity):
 def read_json():
     with open(filename, "r") as file:
         data = json.load(file)
+
     return data
+
 def dict_to_obj(data):
     objects = []
+
     for i in data:
         if "Terrain" in i:
             obj = RunningActivity(i["Type"], i["Duration"], i["Calories"], i["Date"], i["Distance"],
@@ -33,4 +40,5 @@ def dict_to_obj(data):
         else:
             obj = Activity(i["Type"], i["Duration"], i["Calories"], i["Date"])
             objects.append(obj)
+
     return objects
