@@ -169,17 +169,18 @@ def show_summary(workouts):
         print("No workouts to summarise.")
         return
 
-    total_duration = sum(w.duration for w in workouts)
-    total_calories = sum(w.calories for w in workouts)
-    count = len(workouts)
+    combined = workouts[0]
+    for w in workouts[1:]:
+        combined = combined + w
 
-    avg_duration = total_duration / count
-    avg_calories = total_calories / count
+    count = len(workouts)
+    avg_duration = combined.duration / count
+    avg_calories = combined.calories / count
 
     print(f"\n--- Workout summary ---")
     print(f"Total workouts: {count}")
-    print(f"Total duration : {total_duration} minutes.")
-    print(f"Total calories burned: {total_calories}.")
+    print(f"Total duration : {combined.duration} minutes.")
+    print(f"Total calories burned: {combined.calories}.")
     print(f"Average duration: {avg_duration:.1f} minutes.")
     print(f"Average calories burned: {avg_calories:.1f}.")
 
@@ -221,7 +222,7 @@ if __name__ == '__main__':
                 print("Workout saved.")
 
             elif activity == "2":
-                workout = create_activity()
+                workout = create_cardio_activity()
                 write_json(workout)
                 print("Workout saved.")
 

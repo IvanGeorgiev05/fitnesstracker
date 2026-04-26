@@ -41,6 +41,9 @@ class Activity:
     def date(self, value):
         self._date = value
 
+    def __add__(self, other):
+        return Activity("Combined", self._duration + other.duration, self._calories + other.calories, self._date)
+
     def summary(self):
         return f"{self._type} on {self._date}: {self.duration} minutes, {self._calories} calories burned."
 
@@ -77,6 +80,11 @@ class CardioActivity(Activity):
             raise ValueError("Heart rate must be a number.")
         self._heartrate = value
 
+    def __add__(self, other):
+        avg_hr = (self._heartrate + other.heartrate) // 2
+        return CardioActivity("Combined", self._duration + other.duration, self._calories + other.calories,
+                              self._date, self._distance + other.distance, avg_hr)
+
     def summary(self):
         return (f"{self._type} on {self._date}: {self.duration} minutes, {self._distance} distance passed, "
                 f"{self._calories} calories burned, {self._heartrate} average heart rate.")
@@ -100,6 +108,11 @@ class RunningActivity(CardioActivity):
     @terrain.setter
     def terrain(self, value):
         self._terrain = value
+
+    def __add__(self, other):
+        avg_hr = (self._heartrate + other.heartrate) // 2
+        return RunningActivity("Combined", self._duration + other.duration, self._calories + other.calories,
+                               self._date, self._distance + other.distance, avg_hr, self._terrain)
 
     def summary(self):
         return (f"{self._type} on {self._date}: {self.duration} minutes, {self._distance} distance passed,"
