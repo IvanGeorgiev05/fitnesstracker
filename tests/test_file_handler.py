@@ -1,3 +1,4 @@
+# Unit tests for the file handler functions.
 import os
 from unittest import TestCase, main
 from activity import Activity, CardioActivity, RunningActivity

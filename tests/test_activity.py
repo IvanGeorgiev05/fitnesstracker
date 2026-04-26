@@ -1,3 +1,4 @@
+# Unit tests for the Activity, CardioActivity, and RunningActivity classes.
 from unittest import TestCase, main
 from activity import Activity, CardioActivity, RunningActivity
 

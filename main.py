@@ -1,9 +1,11 @@
+#Main module for the fitness tracker application
 import re
 from activity import Activity, CardioActivity, RunningActivity
 from file_handler import write_json, read_json, dict_to_obj
 
 
 def get_date():
+    """Asks for a date and validates it using regex"""
     while True:
         date = input("Date (DD.MM.YYYY): ").strip()
 
@@ -14,6 +16,8 @@ def get_date():
 
 
 def get_duration():
+    """Asks for hours and minutes and then returns the
+       total duration in minutes"""
     while True:
         try:
             hours = int(input("Hours: "))
@@ -29,6 +33,7 @@ def get_duration():
 
 
 def get_calories():
+    """Asks for calories burned and returns them"""
     while True:
         try:
             calories = int(input("Calories burned: "))
@@ -42,6 +47,8 @@ def get_calories():
 
 
 def get_distance():
+    """Asks for distance in km and metres and returns
+       total distance in km"""
     while True:
         try:
             km = int(input("Kilometres passed: "))
@@ -57,6 +64,7 @@ def get_distance():
 
 
 def get_heartrate():
+    """Asks for heartrate and returns the value"""
     while True:
         try:
             heartrate = int(input("Enter average heart rate: "))
@@ -70,6 +78,7 @@ def get_heartrate():
 
 
 def create_activity():
+    """Collects input and returns an Activity object"""
     print("\nCreating a new workout...")
 
     workout_type = input("Workout type: ").strip()
@@ -81,6 +90,7 @@ def create_activity():
 
 
 def create_cardio_activity():
+    """Collects input and returns a CardioActivity object"""
     print("\nCreating a new workout...")
 
     workout_type = input("Workout type: ").strip()
@@ -90,10 +100,12 @@ def create_cardio_activity():
     distance = get_distance()
     heartrate = get_heartrate()
 
-    return CardioActivity(workout_type, total_duration, calories, date, distance, heartrate)
+    return CardioActivity(workout_type, total_duration,
+                          calories, date, distance, heartrate)
 
 
 def create_running_activity():
+    """Collects input and returns a RunningActivity object"""
     print("\nCreating a new workout...")
 
     workout_type = input("Workout type: ").strip()
@@ -104,19 +116,23 @@ def create_running_activity():
     heartrate = get_heartrate()
     terrain = input("Enter type of terrain: ").strip()
 
-    return RunningActivity(workout_type, total_duration, calories, date, distance, heartrate, terrain)
+    return RunningActivity(workout_type, total_duration,
+                           calories, date, distance, heartrate, terrain)
 
 
 def load_workouts():
+    """Loads all workouts from the JSON file
+       and returns a list of all Activity objects"""
     try:
         data = read_json()
         return dict_to_obj(data)
-    except(FileNotFoundError, Exception):
+    except (FileNotFoundError, Exception):
         print("No recorded workouts found.")
         return []
 
 
 def display_workouts(workouts):
+    """Prints a numbered lists of workouts stored"""
     if not workouts:
         print("No workouts to display.")
         return
@@ -128,6 +144,7 @@ def display_workouts(workouts):
 
 
 def filter_workouts(workouts):
+    """Filters workouts by type using a keyword"""
     keyword = input("Enter activity type to filter by: ").strip().lower()
     filtered = list(filter(lambda w: keyword in w.type.lower(), workouts))
 
@@ -141,13 +158,14 @@ def filter_workouts(workouts):
 
 
 def sort_workouts(workouts):
-    print(f"\nSort by:\n"
-          f"1. Duration\n"
-          f"2. Calories\n"
-          f"3. Date")
+    """Sorts workouts by duration calories and date"""
+    print("\nSort by:\n"
+          "1. Duration\n"
+          "2. Calories\n"
+          "3. Date")
     choice = input("Choose 1,2 or 3: ").strip()
 
-    while choice not in("1", "2", "3"):
+    while choice not in ("1", "2", "3"):
         print("Invalid entry")
         choice = input("Choose 1,2 or 3: ").strip()
 
@@ -165,6 +183,8 @@ def sort_workouts(workouts):
 
 
 def show_summary(workouts):
+    """Displays total and average duration and calories using
+       the add operator"""
     if not workouts:
         print("No workouts to summarise.")
         return
@@ -177,7 +197,7 @@ def show_summary(workouts):
     avg_duration = combined.duration / count
     avg_calories = combined.calories / count
 
-    print(f"\n--- Workout summary ---")
+    print("\n--- Workout summary ---")
     print(f"Total workouts: {count}")
     print(f"Total duration : {combined.duration} minutes.")
     print(f"Total calories burned: {combined.calories}.")
@@ -190,30 +210,32 @@ if __name__ == '__main__':
     print("Welcome to Ivan's Fitness App!")
 
     while running:
-        print(f"\nMain menu\n"
-              f"1. Add new activity\n"
-              f"2. Show recorded workouts\n"
-              f"3. Quit")
+        print("\nMain menu\n"
+              "1. Add new activity\n"
+              "2. Show recorded workouts\n"
+              "3. Quit")
 
         answer = input("What would you like to do?(Type 1, 2 or 3): ").strip()
 
-        while answer not in("1", "2", "3"):
+        while answer not in ("1", "2", "3"):
             print("Invalid entry")
             answer = input("What would you like to do?(Type 1, 2 or 3): ")
             answer = answer.strip()
 
         if answer == "1":
-            print(f"\nChoose activity type:\n"
-                  f"1. Activity\n"
-                  f"2. Cardio Activity\n"
-                  f"3. Running Activity\n"
-                  f"4. Back to main menu")
+            print("\nChoose activity type:\n"
+                  "1. Activity\n"
+                  "2. Cardio Activity\n"
+                  "3. Running Activity\n"
+                  "4. Back to main menu")
 
-            activity = input("What would you like to do?(Type 1, 2, 3 or 4):").strip()
+            activity = input("What would you like to do?"
+                             "(Type 1, 2, 3 or 4):").strip()
 
-            while activity not in ("1","2","3","4"):
+            while activity not in ("1", "2", "3", "4"):
                 print("Invalid entry")
-                activity = input("What would you like to do?(Type 1, 2, 3 or 4):")
+                activity = input("What would you like to do?"
+                                 "(Type 1, 2, 3 or 4):")
                 activity = activity.strip()
 
             if activity == "1":
@@ -238,11 +260,11 @@ if __name__ == '__main__':
                 print("\nRecorded workouts: ")
                 display_workouts(workouts)
 
-                print(f"\nOptions:\n"
-                      f"1. Filter by type\n"
-                      f"2. Sort workouts\n"
-                      f"3. Show summary\n"
-                      f"4. Back to main menu")
+                print("\nOptions:\n"
+                      "1. Filter by type\n"
+                      "2. Sort workouts\n"
+                      "3. Show summary\n"
+                      "4. Back to main menu")
 
                 sub = input("Choose option 1, 2, 3 or 4: ").strip()
 
@@ -262,19 +284,3 @@ if __name__ == '__main__':
         elif answer == "3":
             print("Goodbye!")
             running = False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
